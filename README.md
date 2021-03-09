@@ -21,7 +21,7 @@
    - 常量 CONSTANT （正则表达式）
 
 ### 测试demo ###
-[测试demo](https://github.com/lerogo/hl-compiler/src/com/lerogo/compilar/lexer/README.MD "测试demo")
+[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compilar/lexer/README.md "测试demo")
 
 ---
 
