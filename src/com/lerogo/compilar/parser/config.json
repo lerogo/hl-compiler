@@ -1,0 +1,125 @@
+{
+  "production": [
+    { "left": "START", "right": ["S"] },
+    { "left": "S", "right": ["CLASS_S","S"] },
+    { "left": "S", "right": ["FUNC_S","S"] },
+    { "left": "S", "right": [] },
+
+    { "left": "CLASS_S", "right": ["FIELD_TYPE","class","ID","{","CLASS_BODY","}"] },
+    { "left": "FUNC_S", "right": ["function","TYPEDEF","ID","(","ARGS",")","{","BLOCK_STMT","}"] },
+
+    { "left": "FIELD_TYPE", "right": [] },
+    { "left": "FIELD_TYPE", "right": ["public"] },
+    { "left": "FIELD_TYPE", "right": ["private"] },
+    { "left": "FIELD_TYPE", "right": ["protected"] },
+    { "left": "OPTIONAL_FIELD_TYPE", "right": [] },
+    { "left": "OPTIONAL_FIELD_TYPE", "right": ["static"] },
+    { "left": "OPTIONAL_FIELD_TYPE", "right": ["final"] },
+
+    { "left": "TYPEDEF", "right": ["ID"] },
+    { "left": "TYPEDEF", "right": ["CONST_TYPE"] },
+
+    { "left": "CONST_TYPE", "right": ["void"] },
+    { "left": "CONST_TYPE", "right": ["char"] },
+    { "left": "CONST_TYPE", "right": ["bool"] },
+    { "left": "CONST_TYPE", "right": ["short"] },
+    { "left": "CONST_TYPE", "right": ["int"] },
+    { "left": "CONST_TYPE", "right": ["long"] },
+    { "left": "CONST_TYPE", "right": ["double"] },
+    { "left": "CONST_TYPE", "right": ["float"] },
+    { "left": "CONST_TYPE", "right": ["var"] },
+
+    { "left": "DECLARE_INTER", "right": ["TYPEDEF","ID","DECLARE_INIT","DECLARE_VARS",";"] },
+    { "left": "DECLARE_CLASS", "right": ["FIELD_TYPE","OPTIONAL_FIELD_TYPE","TYPEDEF","ID","DECLARE_INIT","DECLARE_VARS",";"] },
+    { "left": "METHOD_CLASS", "right": ["FIELD_TYPE","OPTIONAL_FIELD_TYPE","TYPEDEF","ID","(","ARGS",")","{","BLOCK_STMT","}"] },
+    { "left": "METHOD_CLASS", "right": ["FIELD_TYPE","OPTIONAL_FIELD_TYPE","TYPEDEF","main","(","ARGS",")","{","BLOCK_STMT","}"] },
+
+    { "left": "DECLARE_INIT", "right": [] },
+    { "left": "DECLARE_INIT", "right": ["=","EXPRESSION"] },
+    { "left": "DECLARE_VARS", "right": [] },
+    { "left": "DECLARE_VARS", "right": [",","ID","DECLARE_INIT","DECLARE_VARS"] },
+
+    { "left": "ARGS", "right": [] },
+    { "left": "ARGS", "right": ["TYPEDEF","ID","ARG"] },
+    { "left": "ARG", "right": [] },
+    { "left": "ARG", "right": [",","TYPEDEF","ID","ARG"] },
+
+
+    { "left": "EXPRESSION", "right": ["VALUE"] },
+    { "left": "EXPRESSION", "right": ["(","EXPRESSION",")"] },
+    { "left": "EXPRESSION", "right": ["EXPRESSION","OPERATION","EXPRESSION"] },
+
+    { "left": "VALUE", "right": ["CONSTANT"] },
+    { "left": "VALUE", "right": ["ID","OPERATION_SPECIAL"] },
+    { "left": "VALUE", "right": ["OPERATION_SPECIAL","ID"] },
+
+    { "left": "OPERATION_SPECIAL", "right": [] },
+    { "left": "OPERATION_SPECIAL", "right": ["OPERATION_SPECIAL_SELF"] },
+    { "left": "OPERATION_SPECIAL_SELF", "right": ["++"] },
+    { "left": "OPERATION_SPECIAL_SELF", "right": ["--"] },
+
+    { "left": "OPERATION", "right": ["OPERATION_CAL"] },
+    { "left": "OPERATION", "right": ["OPERATION_CMP"] },
+    { "left": "OPERATION", "right": ["OPERATION_EQ"] },
+    { "left": "OPERATION", "right": ["OPERATION_LOG"] },
+    { "left": "OPERATION_CAL", "right": [","] },
+    { "left": "OPERATION_CAL", "right": ["+"] },
+    { "left": "OPERATION_CAL", "right": ["-"] },
+    { "left": "OPERATION_CAL", "right": ["*"] },
+    { "left": "OPERATION_CAL", "right": ["/"] },
+    { "left": "OPERATION_CAL", "right": ["%"] },
+    { "left": "OPERATION_CAL", "right": ["|"] },
+    { "left": "OPERATION_CAL", "right": ["&"] },
+    { "left": "OPERATION_CAL", "right": ["~"] },
+    { "left": "OPERATION_CAL", "right": ["^"] },
+    { "left": "OPERATION_EQ", "right": ["="] },
+    { "left": "OPERATION_EQ", "right": ["+="] },
+    { "left": "OPERATION_EQ", "right": ["-="] },
+    { "left": "OPERATION_EQ", "right": ["*="] },
+    { "left": "OPERATION_EQ", "right": ["/="] },
+    { "left": "OPERATION_EQ", "right": ["%="] },
+    { "left": "OPERATION_CMP", "right": ["<"] },
+    { "left": "OPERATION_CMP", "right": [">"] },
+    { "left": "OPERATION_CMP", "right": ["=="] },
+    { "left": "OPERATION_CMP", "right": ["!="] },
+    { "left": "OPERATION_CMP", "right": ["<="] },
+    { "left": "OPERATION_CMP", "right": [">="] },
+    { "left": "OPERATION_LOG", "right": ["!"] },
+    { "left": "OPERATION_LOG", "right": ["&&"] },
+    { "left": "OPERATION_LOG", "right": ["||"] },
+
+    { "left": "IF_STMT", "right": ["if","(","EXPRESSION",")","{","BLOCK_STMT","}","ELSE_IF_STMT"] },
+    { "left": "ELSE_IF_STMT", "right": [] },
+    { "left": "ELSE_IF_STMT", "right": ["else","IF_STMT"] },
+    { "left": "ELSE_IF_STMT", "right": ["else","{","BLOCK_STMT","}"] },
+
+    { "left": "FOR_STMT", "right": ["for","(","FOR_EXPRESSION",";","EXPRESSION",";","EXPRESSION",")","{","BLOCK_STMT","}"] },
+    { "left": "FOR_EXPRESSION", "right": ["EXPRESSION"] },
+    { "left": "FOR_EXPRESSION", "right": ["TYPEDEF","ID","DECLARE_INIT","DECLARE_VARS"] },
+
+    { "left": "WHILE_STMT", "right": ["while","(","EXPRESSION",")","{","BLOCK_STMT","}"] },
+
+    { "left": "DO_WHILE_STMT", "right": ["do","{","BLOCK_STMT","}","while","(","EXPRESSION",")",";"] },
+
+    { "left": "PRINT_STMT", "right": ["print","(","EXPRESSION",")",";"] },
+    { "left": "RETURN_STMT", "right": ["return","EXPRESSION",";"] },
+
+
+    { "left": "CLASS_BODY", "right": [] },
+    { "left": "CLASS_BODY", "right": ["CLASS_BODY_TMP","CLASS_BODY"] },
+    { "left": "CLASS_BODY_TMP", "right": ["DECLARE_CLASS"] },
+    { "left": "CLASS_BODY_TMP", "right": ["METHOD_CLASS"] },
+
+    { "left": "BLOCK_STMT", "right": [] },
+    { "left": "BLOCK_STMT", "right": ["BLOCK_STMT_TMP","BLOCK_STMT"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["DECLARE_INTER"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["EXPRESSION",";"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["IF_STMT"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["FOR_STMT"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["WHILE_STMT"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["DO_WHILE_STMT"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["PRINT_STMT"] },
+    { "left": "BLOCK_STMT_TMP", "right": ["RETURN_STMT"] }
+
+  ]
+}

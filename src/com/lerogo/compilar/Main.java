@@ -1,31 +1,34 @@
 package com.lerogo.compilar;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static java.util.regex.Pattern.*;
-
-import com.alibaba.fastjson.*;
 import com.lerogo.compilar.lexer.Lexer;
-import com.lerogo.compilar.lexer.Token;
+import com.lerogo.compilar.parser.AnalysisList;
 
 /**
  * @author lerogo
  * @date 2021/3/7 17:23
  */
 public class Main {
-    public static void main(String[] args) throws IOException {
-        String lexerConfigPath = "";
-        String fileName = "";
-        // token测试
-        List<Token> tokens = new Lexer(lexerConfigPath, fileName).getTokens();
-        for (Token a:tokens){
-            System.out.println(a);
+    public static void main(String[] args) {
+        try{
+            String projectLocation = System.getProperty("user.dir");
+
+            String lexerConfigPath = projectLocation + "/src/com/lerogo/compilar/lexer/config.json";
+            String fileName = projectLocation + "/main.hl";
+            String parserConfigPath = projectLocation + "/src/com/lerogo/compilar/parser/config.json";
+
+            Lexer lexer = new Lexer(lexerConfigPath, fileName);
+            lexer.printToken();
+            AnalysisList analysisList = new AnalysisList(parserConfigPath);
+            analysisList.printItemSetList();
+            analysisList.printActionGotoTable();
+            analysisList.analyse(lexer);
+            System.out.println();
+            analysisList.printAnalysisTable();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
         }
-        // pass
+
     }
 }
+
+
