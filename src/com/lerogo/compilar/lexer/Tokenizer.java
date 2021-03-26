@@ -2,6 +2,7 @@ package com.lerogo.compilar.lexer;
 
 import com.alibaba.fastjson.JSON;
 import com.lerogo.compilar.utils.exception.file.ReadFileError;
+import com.lerogo.compilar.utils.exception.lexer.TokenError;
 import com.lerogo.compilar.utils.file.FileReader;
 import org.apache.commons.io.IOUtils;
 
@@ -47,21 +48,25 @@ class Tokenizer {
         return tokens;
     }
 
+    public String getConfigPath() {
+        return configPath;
+    }
 
     /**
      * 必须传入配置文件和代码文件
      *
-     * @param configPath
-     * @param fileName
-     * @throws ReadFileError
-     * @throws IOException
+     * @param configPath 配置文件地址
+     * @param fileName   待识别的文件地址
+     * @throws ReadFileError 读取待识别文件错误
+     * @throws IOException   文件IO错误
      */
-    Tokenizer(String configPath, String fileName) throws ReadFileError, IOException {
+    Tokenizer(String configPath, String fileName) throws ReadFileError, IOException, TokenError {
         this.codeRow = new FileReader(fileName);
         this.configPath = configPath;
         String jsonText = IOUtils.toString(new FileInputStream(configPath), StandardCharsets.UTF_8);
         this.jp = JSON.parseObject(jsonText, JudgeType.class);
         this.genTokens();
+        this.cheekToken();
     }
 
     /**
@@ -69,6 +74,7 @@ class Tokenizer {
      */
     void genTokens() {
         String code;
+        // 暂存是否为注释状态
         boolean isNoteState = false;
         while ((code = codeRow.nextRow()) != null) {
             StringBuilder word = new StringBuilder();
@@ -84,7 +90,7 @@ class Tokenizer {
                     isNoteState = true;
                     i++;
                     if (word.length() != 0) {
-                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                        tokens.add(new Token(codeRow.getRowInd(), i, this.jp.getTokenType(word.toString()), word.toString()));
                         word = new StringBuilder();
                     }
                     continue;
@@ -99,7 +105,7 @@ class Tokenizer {
                 }
                 if (i < code.length() - 1 && c == '/' && code.charAt(i + 1) == '/') {
                     if (word.length() != 0) {
-                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                        tokens.add(new Token(codeRow.getRowInd(), i, this.jp.getTokenType(word.toString()), word.toString()));
                     }
                     break;
                 }
@@ -112,15 +118,15 @@ class Tokenizer {
                 List<Pattern> tmpPlist = Arrays.asList(this.jp.getCONSTANT(), this.jp.getID());
                 for (Pattern tmpPattern : tmpPlist) {
                     //满足的表达式
-                    int tmp = PatternLastInd(tmpPattern, code.substring(i));
+                    int tmp = this.patternLastInd(tmpPattern, code.substring(i));
                     if (tmp != 0) {
                         flag = false;
                         String tmpStr = code.substring(i, i + tmp);
-                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(tmpStr), tmpStr));
+                        tokens.add(new Token(codeRow.getRowInd(), i + 1, this.jp.getTokenType(tmpStr), tmpStr));
                         i = i + tmp - 1;
                         //要是word还有符号 那么写入token
                         if (word.length() != 0) {
-                            tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                            tokens.add(new Token(codeRow.getRowInd(), i + 1, this.jp.getTokenType(word.toString()), word.toString()));
                             word = new StringBuilder();
                         }
                         break;
@@ -130,10 +136,10 @@ class Tokenizer {
                 if (flag) {
                     word.append(c);
                     if (i < code.length() - 1 && this.jp.getOP().contains(word.toString() + code.charAt(i + 1))) {
-                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString() + code.charAt(i + 1)), word.toString() + code.charAt(i + 1)));
+                        tokens.add(new Token(codeRow.getRowInd(), i + 1, this.jp.getTokenType(word.toString() + code.charAt(i + 1)), word.toString() + code.charAt(i + 1)));
                         i++;
                     } else {
-                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                        tokens.add(new Token(codeRow.getRowInd(), i + 1, this.jp.getTokenType(word.toString()), word.toString()));
                     }
                     word = new StringBuilder();
                 }
@@ -144,11 +150,11 @@ class Tokenizer {
     /**
      * 匹配得到的结果
      *
-     * @param p
-     * @param str
-     * @return
+     * @param p   正则表达式
+     * @param str 待识别的字符串
+     * @return 识别的位置
      */
-    int PatternLastInd(Pattern p, String str) {
+    private int patternLastInd(Pattern p, String str) {
         Matcher matcher = p.matcher(str);
         if (matcher.find()) {
             return matcher.end();
@@ -159,20 +165,20 @@ class Tokenizer {
 
     /**
      * @param c 是否是空白的字符
-     * @return
+     * @return 是/否
      */
-    boolean isBlank(char c) {
+    private boolean isBlank(char c) {
         return c == ' ' || c == '\t' || c == '\n';
     }
 
+    /**
+     * @throws TokenError 对所有的token检查一遍是否有错误
+     */
+    private void cheekToken() throws TokenError {
+        for (Token t : this.tokens) {
+            if (t.getKind() == TokenType.ERROR) {
+                throw new TokenError(t);
+            }
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@ package com.lerogo.compilar.lexer;
  * @date 2021/3/7 17:23
  * 定义token的类型 总共5种
  */
-enum TokenType {
+public enum TokenType {
     //关键字
     KEY_WORD,
     //标识符
