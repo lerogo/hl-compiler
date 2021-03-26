@@ -13,7 +13,7 @@
 ### 介绍 ###
 需要两个文件
  - 解析的代码文件
- - 配置文件 见`src/com/lerogo/compilar/lexer/config.json` json配置
+ - 配置文件 见`src/com/lerogo/compiler/lexer/config.json` json配置
    - 关键字 KEY_WORD
    - 运算符 OP
    - 界符 SYMBOL
@@ -21,7 +21,7 @@
    - 常量 CONSTANT （正则表达式）
 
 ### 测试demo ###
-[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compilar/lexer/README.md "测试demo")
+[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compiler/lexer/README.md "测试demo")
 
 ---
 
@@ -29,11 +29,11 @@
 ### 介绍 ###
 需要上述词法分析的对象 以及配置文件
 - 解析的代码文件
-- 配置文件 见`src/com/lerogo/compilar/parser/config.json` json配置
+- 配置文件 见`src/com/lerogo/compiler/parser/config.json` json配置
 - 需要配置"START"的增广文法 或者修改代码将"START"改为其他的
 
 ### 测试demo ###
-[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compilar/parser/README.md "测试demo")
+[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compiler/parser/README.md "测试demo")
 
 ---
 
