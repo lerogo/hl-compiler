@@ -2,8 +2,8 @@ package com.lerogo.compilar.parser;
 
 import com.alibaba.fastjson.JSON;
 import com.lerogo.compilar.lexer.Lexer;
-import com.lerogo.compilar.utils.exception.file.ReadFileError;
-import com.lerogo.compilar.utils.exception.parser.GrammarError;
+import com.lerogo.compilar.utils.exception.file.ReadFileException;
+import com.lerogo.compilar.utils.exception.parser.GrammarException;
 import com.lerogo.compilar.utils.exception.parser.ParserError;
 import com.lerogo.compilar.utils.file.FileReader;
 import org.apache.commons.io.IOUtils;
@@ -52,13 +52,13 @@ public class AnalysisList {
     /**
      * @param lexer 传入的lexer对象 包含token列表
      * @return 分析成功与否
-     * @throws GrammarError 语法出错
+     * @throws GrammarException 语法出错
      */
-    public boolean analyse(Lexer lexer) throws GrammarError {
+    public boolean analyse(Lexer lexer) throws GrammarException {
         try {
             this.fileReader = new FileReader(lexer.getFileName());
-        } catch (ReadFileError readFileError) {
-            readFileError.printStackTrace();
+        } catch (ReadFileException readFileException) {
+            readFileException.printStackTrace();
         }
         return this.syncTable.syncTokenList(lexer, new ParserError(this.fileReader));
     }

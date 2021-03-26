@@ -1,6 +1,6 @@
 package com.lerogo.compilar.utils.file;
 
-import com.lerogo.compilar.utils.exception.file.ReadFileError;
+import com.lerogo.compilar.utils.exception.file.ReadFileException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,10 +29,10 @@ public class FileReader {
     /**
      * 读取出文件内容
      *
-     * @param fileName
-     * @throws ReadFileError
+     * @param fileName 文件名
+     * @throws ReadFileException 读取错误
      */
-    public FileReader(String fileName) throws ReadFileError {
+    public FileReader(String fileName) throws ReadFileException {
         this.fileName = fileName;
         this.readFile2Row();
         this.rowInd = 0;
@@ -41,10 +41,10 @@ public class FileReader {
     /**
      * 重新设置文件名后自动读入数据
      *
-     * @param fileName
-     * @throws ReadFileError
+     * @param fileName 文件名
+     * @throws ReadFileException 读取错误
      */
-    public void setFileName(String fileName) throws ReadFileError {
+    public void setFileName(String fileName) throws ReadFileException {
         this.fileName = fileName;
         this.readFile2Row();
         this.rowInd = 0;
@@ -81,7 +81,7 @@ public class FileReader {
     /**
      * 传入ind 从0开始
      *
-     * @param ind
+     * @param ind 行数
      * @return 第ind行的代码
      */
     public String getIndRow(int ind) {
@@ -93,7 +93,7 @@ public class FileReader {
     }
 
 
-    private void readFile2Row() throws ReadFileError {
+    private void readFile2Row() throws ReadFileException {
         BufferedReader in = null;
         try {
             in = new BufferedReader(new java.io.FileReader(this.fileName));
@@ -101,7 +101,7 @@ public class FileReader {
                 this.readRow.add(tmpStr);
             }
         } catch (Exception e) {
-            throw new ReadFileError();
+            throw new ReadFileException();
         } finally {
             if (in != null) {
                 try {

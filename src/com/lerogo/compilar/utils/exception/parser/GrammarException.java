@@ -8,30 +8,30 @@ import java.util.Set;
  * @author lerogo
  * @date 2021/3/26 14:11
  */
-public class GrammarError extends Exception {
-    private static final String remindError = "语法分析出错";
+public class GrammarException extends Exception {
+    private static final String REMIND_EXCEPTION = "语法分析出错";
 
-    public GrammarError() {
-        super(remindError);
+    public GrammarException() {
+        super(REMIND_EXCEPTION);
     }
 
-    public GrammarError(Set<String> keys, Token t) {
+    public GrammarException(Set<String> keys, Token t) {
         super(
-                "GrammarError{" +
+                "GrammarException{" +
                         "row=" + t.getRow() +
                         ", col=" + t.getCol() +
-                        ", error=" + remindError +
+                        ", error=" + REMIND_EXCEPTION +
                         ", expect=" + keys +
                         ", get=" + t.getVal() +
                         "}"
         );
     }
 
-    public GrammarError(Set<String> keys, int row) {
+    public GrammarException(Set<String> keys, int row) {
         super(
-                "GrammarError{" +
+                "GrammarException{" +
                         "row=" + row +
-                        ", error=" + remindError +
+                        ", error=" + REMIND_EXCEPTION +
                         ", expect=" + keys +
                         ", get=null" +
                         "}"

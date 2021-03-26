@@ -6,31 +6,31 @@ import com.lerogo.compilar.lexer.Token;
  * @author lerogo
  * @date 2021/3/26 10:20
  */
-public class TokenError extends Exception {
-    private static final String remindError = "词法分析 TOKEN出错";
+public class TokenException extends Exception {
+    private static final String REMIND_EXCEPTION = "词法分析 TOKEN出错";
 
-    public TokenError() {
-        super(remindError);
+    public TokenException() {
+        super(REMIND_EXCEPTION);
     }
 
-    public TokenError(Token t) {
+    public TokenException(Token t) {
         super(
-                "TokenError{" +
+                "TokenException{" +
                         "row=" + t.getRow() +
                         ", col=" + t.getCol() +
                         ", val=" + t.getVal() +
-                        ", error=" + remindError +
+                        ", error=" + REMIND_EXCEPTION +
                         "}"
         );
     }
 
-    public TokenError(Token t, String error) {
+    public TokenException(Token t, String error) {
         super(
-                "TokenError{" +
+                "TokenException{" +
                         "row=" + t.getRow() +
                         ", col=" + t.getCol() +
                         ", val=" + t.getVal() +
-                        ", error=" + remindError + ": " + error +
+                        ", error=" + REMIND_EXCEPTION + ": " + error +
                         "}"
         );
     }

@@ -1,8 +1,8 @@
 package com.lerogo.compilar.lexer;
 
 import com.alibaba.fastjson.JSON;
-import com.lerogo.compilar.utils.exception.file.ReadFileError;
-import com.lerogo.compilar.utils.exception.lexer.TokenError;
+import com.lerogo.compilar.utils.exception.file.ReadFileException;
+import com.lerogo.compilar.utils.exception.lexer.TokenException;
 import com.lerogo.compilar.utils.file.FileReader;
 import org.apache.commons.io.IOUtils;
 
@@ -57,10 +57,10 @@ class Tokenizer {
      *
      * @param configPath 配置文件地址
      * @param fileName   待识别的文件地址
-     * @throws ReadFileError 读取待识别文件错误
+     * @throws ReadFileException 读取待识别文件错误
      * @throws IOException   文件IO错误
      */
-    Tokenizer(String configPath, String fileName) throws ReadFileError, IOException, TokenError {
+    Tokenizer(String configPath, String fileName) throws ReadFileException, IOException, TokenException {
         this.codeRow = new FileReader(fileName);
         this.configPath = configPath;
         String jsonText = IOUtils.toString(new FileInputStream(configPath), StandardCharsets.UTF_8);
@@ -172,12 +172,12 @@ class Tokenizer {
     }
 
     /**
-     * @throws TokenError 对所有的token检查一遍是否有错误
+     * @throws TokenException 对所有的token检查一遍是否有错误
      */
-    private void cheekToken() throws TokenError {
+    private void cheekToken() throws TokenException {
         for (Token t : this.tokens) {
             if (t.getKind() == TokenType.ERROR) {
-                throw new TokenError(t);
+                throw new TokenException(t);
             }
         }
     }

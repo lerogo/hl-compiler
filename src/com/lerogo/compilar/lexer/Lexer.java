@@ -1,8 +1,7 @@
 package com.lerogo.compilar.lexer;
 
-import com.lerogo.compilar.utils.exception.file.ReadFileError;
-import com.lerogo.compilar.utils.exception.lexer.TokenError;
-import com.lerogo.compilar_bak.exception.LexerError;
+import com.lerogo.compilar.utils.exception.file.ReadFileException;
+import com.lerogo.compilar.utils.exception.lexer.TokenException;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,7 +25,7 @@ public class Lexer {
      */
     private final String fileName;
 
-    public Lexer(String configPath, String fileName) throws TokenError, IOException, ReadFileError {
+    public Lexer(String configPath, String fileName) throws TokenException, IOException, ReadFileException {
         this.configPath = configPath;
         this.fileName = fileName;
         this.t = new Tokenizer(configPath, fileName);

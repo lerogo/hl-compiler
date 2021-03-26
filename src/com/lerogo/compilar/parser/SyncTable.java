@@ -3,7 +3,7 @@ package com.lerogo.compilar.parser;
 import com.lerogo.compilar.lexer.Lexer;
 import com.lerogo.compilar.lexer.Token;
 import com.lerogo.compilar.lexer.TokenType;
-import com.lerogo.compilar.utils.exception.parser.GrammarError;
+import com.lerogo.compilar.utils.exception.parser.GrammarException;
 import com.lerogo.compilar.utils.exception.parser.ParserError;
 
 import java.util.*;
@@ -89,7 +89,7 @@ public class SyncTable {
      * @return 返回是否符合语法
      * 期间打印输出 分析栈
      */
-    public boolean syncTokenList(Lexer lexer, ParserError parserError) throws GrammarError {
+    public boolean syncTokenList(Lexer lexer, ParserError parserError) throws GrammarException {
         // 状态栈
         Stack<Integer> state = new Stack<>();
         // 符号栈
@@ -111,7 +111,7 @@ public class SyncTable {
             // 从actionGoto表里面找到对应行
             ActionGoto actionGoto = agList.get(index);
             // 看下一个符号是什么
-            String val = null;
+            String val;
             if (t.getKind() == TokenType.ID) {
                 // 如果是标识符 则识别为ID
                 val = "ID";

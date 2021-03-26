@@ -16,12 +16,12 @@ public class ParserError {
         this.fileReader = fileReader;
     }
 
-    public void cheekGrammar(Set<String> keys, Token t) throws GrammarError {
+    public void cheekGrammar(Set<String> keys, Token t) throws GrammarException {
         if (fileReader == null) {
             if (t == null) {
-                throw new GrammarError(keys, 0);
+                throw new GrammarException(keys, 0);
             } else {
-                throw new GrammarError(keys, t);
+                throw new GrammarException(keys, t);
             }
         } else {
             int codeSize = this.fileReader.getReadRow().size();
@@ -31,7 +31,7 @@ public class ParserError {
                 }
                 System.err.print("ˇ");
                 System.err.println();
-                throw new GrammarError(keys, codeSize);
+                throw new GrammarException(keys, codeSize);
             } else {
                 int codeRow = t.getRow();
                 int codeCol = t.getCol();
@@ -57,7 +57,7 @@ public class ParserError {
                 if (codeRow < codeSize) {
                     System.err.println(this.fileReader.getIndRow(codeRow));
                 }
-                throw new GrammarError(keys, t);
+                throw new GrammarException(keys, t);
             }
         }
     }
