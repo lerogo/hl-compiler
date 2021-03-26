@@ -1,10 +1,10 @@
-package com.lerogo.compilar.parser;
+package com.lerogo.compiler.parser;
 
-import com.lerogo.compilar.lexer.Lexer;
-import com.lerogo.compilar.lexer.Token;
-import com.lerogo.compilar.lexer.TokenType;
-import com.lerogo.compilar.utils.exception.parser.GrammarException;
-import com.lerogo.compilar.utils.exception.parser.ParserError;
+import com.lerogo.compiler.lexer.Lexer;
+import com.lerogo.compiler.lexer.Token;
+import com.lerogo.compiler.lexer.TokenType;
+import com.lerogo.compiler.utils.exception.parser.GrammarException;
+import com.lerogo.compiler.utils.exception.parser.ParserError;
 
 import java.util.*;
 

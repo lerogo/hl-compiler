@@ -1,11 +1,11 @@
-package com.lerogo.compilar.parser;
+package com.lerogo.compiler.parser;
 
 import com.alibaba.fastjson.JSON;
-import com.lerogo.compilar.lexer.Lexer;
-import com.lerogo.compilar.utils.exception.file.ReadFileException;
-import com.lerogo.compilar.utils.exception.parser.GrammarException;
-import com.lerogo.compilar.utils.exception.parser.ParserError;
-import com.lerogo.compilar.utils.file.FileReader;
+import com.lerogo.compiler.lexer.Lexer;
+import com.lerogo.compiler.utils.exception.file.ReadFileException;
+import com.lerogo.compiler.utils.exception.parser.GrammarException;
+import com.lerogo.compiler.utils.exception.parser.ParserError;
+import com.lerogo.compiler.utils.file.FileReader;
 import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;

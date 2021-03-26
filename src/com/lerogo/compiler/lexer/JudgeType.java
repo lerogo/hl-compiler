@@ -1,4 +1,4 @@
-package com.lerogo.compilar.lexer;
+package com.lerogo.compiler.lexer;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

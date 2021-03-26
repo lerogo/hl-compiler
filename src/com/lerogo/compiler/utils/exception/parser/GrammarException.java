@@ -1,6 +1,6 @@
-package com.lerogo.compilar.utils.exception.parser;
+package com.lerogo.compiler.utils.exception.parser;
 
-import com.lerogo.compilar.lexer.Token;
+import com.lerogo.compiler.lexer.Token;
 
 import java.util.Set;
 

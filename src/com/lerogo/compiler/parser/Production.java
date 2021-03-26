@@ -1,4 +1,4 @@
-package com.lerogo.compilar.parser;
+package com.lerogo.compiler.parser;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -305,8 +305,3 @@ class FirstSetData {
         return this.endToken == tmp.endToken && this.data.containsAll(tmp.data);
     }
 }
-
-
-
-
-

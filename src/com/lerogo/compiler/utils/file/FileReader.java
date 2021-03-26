@@ -1,6 +1,6 @@
-package com.lerogo.compilar.utils.file;
+package com.lerogo.compiler.utils.file;
 
-import com.lerogo.compilar.utils.exception.file.ReadFileException;
+import com.lerogo.compiler.utils.exception.file.ReadFileException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

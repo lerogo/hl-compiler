@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: com.lerogo.compilar.Main
+Main-Class: com.lerogo.compiler.Main
 

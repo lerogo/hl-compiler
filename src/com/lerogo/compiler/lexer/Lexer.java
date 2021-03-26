@@ -1,7 +1,7 @@
-package com.lerogo.compilar.lexer;
+package com.lerogo.compiler.lexer;
 
-import com.lerogo.compilar.utils.exception.file.ReadFileException;
-import com.lerogo.compilar.utils.exception.lexer.TokenException;
+import com.lerogo.compiler.utils.exception.file.ReadFileException;
+import com.lerogo.compiler.utils.exception.lexer.TokenException;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.lerogo.compilar.utils.exception.lexer;
+package com.lerogo.compiler.utils.exception.lexer;
 
-import com.lerogo.compilar.lexer.Token;
+import com.lerogo.compiler.lexer.Token;
 
 /**
  * @author lerogo
