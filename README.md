@@ -3,7 +3,7 @@
 ## 介绍 ##
 准备实现一个简单的编译器😄
   - 词法分析（✅）
-  - 语法分析（❎）
+  - 语法分析（✅）
   - 语义计算（❎）
   - 优化（❎）
 
@@ -26,7 +26,14 @@
 ---
 
 ## 语法分析 ##
-待实现
+### 介绍 ###
+需要上述词法分析的对象 以及配置文件
+- 解析的代码文件
+- 配置文件 见`src/com/lerogo/compilar/parser/config.json` json配置
+- 需要配置"START"的增广文法 或者修改代码将"START"改为其他的
+
+### 测试demo ###
+[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compilar/parser/README.md "测试demo")
 
 ---
 
