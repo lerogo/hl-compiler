@@ -17,6 +17,7 @@
 
 ## 如何使用 ##
 将lib包配置到项目文件 运行Main即可
+测试一下（需要文件存放对路径 懒得弄args了）：java -jar compilar.jar
 
 ---
 
