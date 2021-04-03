@@ -40,7 +40,7 @@ public class AnalysisList {
 
     /**
      * @param configPath 配置文件地址（文法产生式）
-     * @throws IOException  读取文件出错
+     * @throws IOException 读取文件出错
      */
     public AnalysisList(String configPath) throws IOException {
         this.configPath = configPath;
@@ -84,4 +84,11 @@ public class AnalysisList {
         System.out.println(this.syncTable.getAnalysisTable());
     }
 
+    public SyncTreeNode getTreeNode() {
+        return this.syncTable.getTreeNode();
+    }
+
+    public Production getProduction() {
+        return production;
+    }
 }

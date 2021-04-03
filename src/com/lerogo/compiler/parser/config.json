@@ -34,6 +34,7 @@
     { "left": "METHOD_CLASS", "right": ["FIELD_TYPE","OPTIONAL_FIELD_TYPE","TYPEDEF","ID","(","ARGS",")","{","BLOCK_STMT","}"] },
     { "left": "METHOD_CLASS", "right": ["FIELD_TYPE","OPTIONAL_FIELD_TYPE","TYPEDEF","main","(","ARGS",")","{","BLOCK_STMT","}"] },
 
+
     { "left": "DECLARE_INIT", "right": [] },
     { "left": "DECLARE_INIT", "right": ["=","EXPRESSION"] },
     { "left": "DECLARE_VARS", "right": [] },
@@ -44,19 +45,16 @@
     { "left": "ARG", "right": [] },
     { "left": "ARG", "right": [",","TYPEDEF","ID","ARG"] },
 
-
     { "left": "EXPRESSION", "right": ["VALUE"] },
     { "left": "EXPRESSION", "right": ["(","EXPRESSION",")"] },
     { "left": "EXPRESSION", "right": ["EXPRESSION","OPERATION","EXPRESSION"] },
 
     { "left": "VALUE", "right": ["CONSTANT"] },
-    { "left": "VALUE", "right": ["ID","OPERATION_SPECIAL"] },
-    { "left": "VALUE", "right": ["OPERATION_SPECIAL","ID"] },
+    { "left": "VALUE", "right": ["OPERATION_SPECIAL","ID","OPERATION_SPECIAL"] },
 
     { "left": "OPERATION_SPECIAL", "right": [] },
-    { "left": "OPERATION_SPECIAL", "right": ["OPERATION_SPECIAL_SELF"] },
-    { "left": "OPERATION_SPECIAL_SELF", "right": ["++"] },
-    { "left": "OPERATION_SPECIAL_SELF", "right": ["--"] },
+    { "left": "OPERATION_SPECIAL", "right": ["++"] },
+    { "left": "OPERATION_SPECIAL", "right": ["--"] },
 
     { "left": "OPERATION", "right": ["OPERATION_CAL"] },
     { "left": "OPERATION", "right": ["OPERATION_CMP"] },

@@ -1,0 +1,275 @@
+package com.lerogo.compiler.lexer;
+
+import com.alibaba.fastjson.JSON;
+import com.lerogo.compiler.utils.exception.file.ReadFileException;
+import com.lerogo.compiler.utils.file.FileReader;
+import org.apache.commons.io.IOUtils;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * 将代码转为TOKEN的列表
+ * NFA DFA处理等
+ *
+ * @author lerogo
+ * @date 2021/3/7 19:31
+ */
+class Tokenizer {
+    /**
+     * 配置文件的路径
+     */
+    private final String configPath;
+
+    /**
+     * 判断类型的类 使用json获取配置
+     */
+    private final JudgeType jp;
+
+    private final FileReader codeRow;
+
+    /**
+     * 生成的token列表
+     */
+    private final List<Token> tokens = new ArrayList<>();
+
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    Tokenizer(String configPath, String fileName) throws ReadFileError, IOException {
+        this.codeRow = new FileReader(fileName);
+        this.configPath = configPath;
+        String jsonText = IOUtils.toString(new FileInputStream(configPath), StandardCharsets.UTF_8);
+        this.jp = JSON.parseObject(jsonText, JudgeType.class);
+        this.genTokens();
+    }
+
+    void genTokens() {
+        String code;
+        boolean isNoteState = false;
+        while ((code = codeRow.nextRow()) != null) {
+            StringBuilder word = new StringBuilder();
+            for (int i = 0; i < code.length(); ++i) {
+                char c = code.charAt(i);
+                // 去掉空字符
+                while (this.isBlank(c)) {
+                    i++;
+                    c = code.charAt(i);
+                }
+                //注释处理 这里也可以使用正则进行ignore
+                if (!isNoteState && i < code.length() - 1 && c == '/' && code.charAt(i + 1) == '*') {
+                    isNoteState = true;
+                    i++;
+                    if (word.length() != 0) {
+                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                        word = new StringBuilder();
+                    }
+                    continue;
+                }
+                if (isNoteState) {
+                    if(i < code.length() - 1 && c == '*' && code.charAt(i + 1) == '/'){
+                        isNoteState = false;
+                        break;
+                    }else{
+                        continue;
+                    }
+                }
+                if (i < code.length() - 1 && c == '/' && code.charAt(i + 1) == '/') {
+                    if (word.length() != 0) {
+                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                    }
+                    break;
+                }
+
+                boolean flag = true;
+                List<Pattern> tmpPlist = Arrays.asList(this.jp.getCONSTANT(), this.jp.getID());
+                for (Pattern tmpPattern : tmpPlist) {
+                    //满足常量的表达式
+                    int tmp = PatternLastInd(tmpPattern, code.substring(i));
+                    if (tmp != 0) {
+                        flag = false;
+                        String tmpStr = code.substring(i, i + tmp);
+                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(tmpStr), tmpStr));
+                        i = i + tmp - 1;
+                        if (word.length() != 0) {
+                            tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                            word = new StringBuilder();
+                        }
+                        break;
+                    }
+                }
+                if (flag) {
+                    word.append(c);
+                    if (i < code.length() - 1 && this.jp.getOP().contains(word.toString() + code.charAt(i + 1))) {
+                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString() + code.charAt(i + 1)), word.toString() + code.charAt(i + 1)));
+                        i++;
+                    } else {
+                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                    }
+                    word = new StringBuilder();
+                }
+            }
+        }
+    }
+
+    int PatternLastInd(Pattern p, String str) {
+        Matcher matcher = p.matcher(str);
+        if (matcher.find()) {
+            return matcher.end();
+        } else {
+            return 0;
+        }
+    }
+/*
+    void genToken() {
+        String code = null;
+        State state = null;
+        StringBuilder word = new StringBuilder();
+        while ((code = codeRow.nextRow()) != null) {
+            if (state != State.NOTE) {
+                state = State.START;
+                word = new StringBuilder();
+            }
+            for (int i = 0; i < code.length(); ++i) {
+                char tmp = code.charAt(i);
+                switch (state) {
+                    case START:
+                        if (this.isBlank(tmp)) {
+                            //空则跳过
+                        } else if (tmp == '\"') {
+                            //进入字符串状态
+                            state = State.STRING;
+                            word.append(tmp);
+                        } else if (tmp == '/') {
+                            // 判断是否为注释
+                            if (i < code.length() - 1) {
+                                if (code.charAt(i + 1) == '/') {
+                                    i = code.length();
+                                } else if (code.charAt(i + 1) == '*') {
+                                    state = State.NOTE;
+                                }
+                            } else {
+                                state = State.MID;
+                                word.append(tmp);
+                            }
+                        } else if (tmp == '\'') {
+                            //判断是否为字符
+                            state = State.DONE;
+                            if (i < code.length() - 2 && code.charAt(i + 2) == '\'') {
+                                word.append(code, i, i + 3);
+                            } else if (i < code.length() - 3 && code.charAt(i + 1) == '\\' && code.charAt(i + 3) == '\'') {
+                                word.append(code, i, i + 4);
+                            } else {
+                                state = State.MID;
+                                word.append(tmp);
+                            }
+                        } else if (this.jp.getSYMBOL().contains("" + tmp)) {
+                            //判断是否为界符
+                            state = State.DONE;
+                            word.append(tmp);
+                        } else if (this.jp.getOP().contains("" + tmp)) {
+                            //判断是否为OP符号
+                            if (i < code.length() - 1 && this.jp.getOP().contains(code.substring(i, i + 2))) {
+                                word.append(code, i, i + 2);
+                                state = State.DONE;
+                                i++;
+                            } else {
+                                state = State.DONE;
+                                word.append(tmp);
+                            }
+                        } else {
+                            state = State.MID;
+                            word.append(tmp);
+                        }
+                        break;
+                    case MID:
+                        if (this.isBlank(tmp)) {
+                            //空格直接结束处理
+                            state = State.DONE;
+                        } else if ((this.isDigitalFirst(tmp) || tmp == '-' || tmp == 'i') && this.isDigitalFirst(word.charAt(0))) {
+                            //数字处理
+                            word.append(tmp);
+                        } else if (this.jp.getOP().contains(word.toString() + tmp)) {
+                            //判断两个符号的op += <= ++等
+                            state = State.DONE;
+                            word.append(tmp);
+                        } else if (this.jp.getSYMBOL().contains("" + tmp) || this.jp.getOP().contains("" + tmp)) {
+                            //若为一个符号 则判断为当前结束
+                            state = State.DONE;
+                            i--;
+                        } else {
+                            word.append(tmp);
+                        }
+                        break;
+                    case STRING:
+                        if (tmp == '\"') {
+                            word.append(tmp);
+                            state = State.DONE;
+                        } else {
+                            word.append(tmp);
+                        }
+                        break;
+                    case NOTE:
+                        if (tmp == '*' && i < code.length() - 1 && code.charAt(i + 1) == '/') {
+                            state = State.DONE;
+                            word = null;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                if (state == State.DONE) {
+                    if (word != null) {
+                        tokens.add(new Token(codeRow.getRowInd(), this.jp.getTokenType(word.toString()), word.toString()));
+                    }
+                    word = new StringBuilder();
+                    state = State.START;
+                }
+            }
+
+        }
+    }
+
+    boolean isDigitalFirst(char c) {
+        return Character.isDigit(c) || c == '+' || c == '-' || c == '.';
+    }
+*/
+
+    boolean isBlank(char c) {
+        return c == ' ' || c == '\t' || c == '\n';
+    }
+
+}
+
+enum State {
+    //开始
+    START,
+    //中间状态
+    MID,
+    //特殊状态 string（因为可以包含任意字符）
+    STRING,
+    //特殊状态 注释（因为可以包含多行）
+    NOTE,
+    //结束
+    DONE
+}
+
+
+
+
+
+
+
+
+
+
+
+

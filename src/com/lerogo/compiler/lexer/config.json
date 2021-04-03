@@ -1,5 +1,5 @@
 {
-  "KEY_WORD": ["class", "main", "void", "function", "static",
+  "KEY_WORD": ["class", "void", "function", "static",
     "private","public","protected",
     "char", "int", "boolean", "double", "bool","var",
     "if", "else", "while", "do", "for",

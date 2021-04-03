@@ -40,11 +40,6 @@ public class SyncTable {
      */
     private final List<String> analysisTable = new ArrayList<>();
 
-    /**
-     * 生成抽象语法树
-     */
-    private SyncTreeNode syncTreeNode = new SyncTreeNode();
-
     public SyncTable(Production production) {
         this("START", production);
     }
@@ -61,10 +56,6 @@ public class SyncTable {
 
     public String getSTART_OF_GRAMMAR() {
         return START_OF_GRAMMAR;
-    }
-
-    public SyncTreeNode getTreeNode() {
-        return syncTreeNode;
     }
 
     /**
@@ -103,8 +94,6 @@ public class SyncTable {
         Stack<Integer> state = new Stack<>();
         // 符号栈
         Stack<String> symbol = new Stack<>();
-        // 语法树
-        Stack<SyncTreeNode> syncTreeNodes = new Stack<>();
         // 输入符号
         List<Token> tokens = lexer.getTokens();
         // 初始化
@@ -145,10 +134,9 @@ public class SyncTable {
                 // 移进
                 state.push((Integer) o);
                 symbol.push(val);
-                syncTreeNodes.push(new SyncTreeNode(val, t));
             } else if (o instanceof ProductionAtom) {
                 // 规约
-                reduceToken(state, symbol, syncTreeNodes, (ProductionAtom) o);
+                reduceToken(state, symbol, (ProductionAtom) o);
                 tokenInd--;
             } else {
                 // 出错处理
@@ -175,12 +163,11 @@ public class SyncTable {
                 return false;
             } else {
                 // 规约
-                reduceToken(state, symbol, syncTreeNodes, (ProductionAtom) o);
+                reduceToken(state, symbol, (ProductionAtom) o);
             }
         }
         this.addStateAndSymbol(state, symbol, null);
         if (symbol.size() == 1 && this.START_OF_GRAMMAR.equals(symbol.peek())) {
-            this.syncTreeNode = syncTreeNodes.peek();
             return true;
         }
         //出错处理
@@ -195,31 +182,18 @@ public class SyncTable {
      * @param symbol 符号栈
      * @param pAtom  规约产生式
      */
-    private void reduceToken(Stack<Integer> state, Stack<String> symbol, Stack<SyncTreeNode> syncTreeNodes, ProductionAtom pAtom) {
-        List<SyncTreeNode> tmpList = new ArrayList<>();
+    private void reduceToken(Stack<Integer> state, Stack<String> symbol, ProductionAtom pAtom) {
         int len = pAtom.getRight().size();
-        Token token = null;
-        if (len == 1) {
-            token = syncTreeNodes.peek().getToken();
-        }
         // 弹出栈
         for (int i = 0; i < len; ++i) {
             state.pop();
             symbol.pop();
-            tmpList.add(syncTreeNodes.pop());
         }
-        // 顺序矫正
-        Collections.reverse(tmpList);
         // 规约
         String endStr = pAtom.getLeft();
         Integer index = (Integer) agList.get(state.peek()).get(endStr);
         state.push(index);
         symbol.push(endStr);
-        SyncTreeNode tmpSyncTreeNode = new SyncTreeNode(endStr, tmpList, token);
-        for (SyncTreeNode t : tmpList) {
-            t.setFather(tmpSyncTreeNode);
-        }
-        syncTreeNodes.push(tmpSyncTreeNode);
     }
 
 
