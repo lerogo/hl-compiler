@@ -15,6 +15,11 @@
 
 ---
 
+## 如何使用 ##
+将lib包配置到项目文件 运行Main即可
+
+---
+
 ## 词法分析器 ##
 ### 介绍 ###
 需要两个文件
@@ -71,10 +76,5 @@
 ### 语义分析 ###
 ![语义分析结果](https://github.com/lerogo/hl-compiler/blob/master/screenshot/7.png)
 ![语义分析出错](https://github.com/lerogo/hl-compiler/blob/master/screenshot/8.png)
-
----
-
-## 如何使用 ##
-将lib包配置到项目文件 运行Main即可
 
 ---
