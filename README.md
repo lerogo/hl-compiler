@@ -34,7 +34,7 @@
    - 常量 CONSTANT （正则表达式）
 
 ### 测试demo ###
-[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compiler/lexer/README.md "测试demo")
+[测试demo](https://github.com/lerogo/hl-compiler/blob/main/src/com/lerogo/compiler/lexer/README.md "测试demo")
 
 ---
 
@@ -46,7 +46,7 @@
 - 需要配置"START"的增广文法 或者修改代码将"START"改为其他的
 
 ### 测试demo ###
-[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compiler/parser/README.md "测试demo")
+[测试demo](https://github.com/lerogo/hl-compiler/blob/main/src/com/lerogo/compiler/parser/README.md "测试demo")
 
 ---
 
@@ -61,23 +61,23 @@
 - 走通了一遍 并不代表能够在机器上跑 配置文件的语义太多了
 
 ### 测试demo ###
-[测试demo](https://github.com/lerogo/hl-compiler/blob/master/src/com/lerogo/compiler/semantic/README.md "测试demo")
+[测试demo](https://github.com/lerogo/hl-compiler/blob/main/src/com/lerogo/compiler/semantic/README.md "测试demo")
 
 ---
 
 ## 截图 ##
 ### 词法分析 ###
-![词法分析token](https://github.com/lerogo/hl-compiler/blob/master/screenshot/1.png)
-![词法分析出错](https://github.com/lerogo/hl-compiler/blob/master/screenshot/2.png)
+![词法分析token](https://github.com/lerogo/hl-compiler/blob/main/screenshot/1.png)
+![词法分析出错](https://github.com/lerogo/hl-compiler/blob/main/screenshot/2.png)
 
 ### 语法分析 ###
-![语法分析项目集族](https://github.com/lerogo/hl-compiler/blob/master/screenshot/3.png)
-![语法分析ActionGoto表](https://github.com/lerogo/hl-compiler/blob/master/screenshot/4.png)
-![语法分析栈](https://github.com/lerogo/hl-compiler/blob/master/screenshot/5.png)
-![语法分析出错](https://github.com/lerogo/hl-compiler/blob/master/screenshot/6.png)
+![语法分析项目集族](https://github.com/lerogo/hl-compiler/blob/main/screenshot/3.png)
+![语法分析ActionGoto表](https://github.com/lerogo/hl-compiler/blob/main/screenshot/4.png)
+![语法分析栈](https://github.com/lerogo/hl-compiler/blob/main/screenshot/5.png)
+![语法分析出错](https://github.com/lerogo/hl-compiler/blob/main/screenshot/6.png)
 
 ### 语义分析 ###
-![语义分析结果](https://github.com/lerogo/hl-compiler/blob/master/screenshot/7.png)
-![语义分析出错](https://github.com/lerogo/hl-compiler/blob/master/screenshot/8.png)
+![语义分析结果](https://github.com/lerogo/hl-compiler/blob/main/screenshot/7.png)
+![语义分析出错](https://github.com/lerogo/hl-compiler/blob/main/screenshot/8.png)
 
 ---
